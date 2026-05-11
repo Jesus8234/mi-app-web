@@ -1,5 +1,13 @@
+<?php
+require_once 'config.php';
+
+// Consulta todas las aulas para el select dinámico
+$stmt = $pdo->query("SELECT id, nombre FROM aulas ORDER BY nombre ASC");
+$aulas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +19,7 @@
     <!-- Estilos de la aplicación -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <!-- Barra de Navegación -->
@@ -26,7 +35,7 @@
 
     <!-- Contenedor Principal -->
     <div class="container">
-        
+
         <!-- Cabecera de la página -->
         <div class="page-header">
             <div>
@@ -42,31 +51,27 @@
         <div class="card" style="max-width: 650px; margin: 0 auto;">
             <!-- El atributo action debe apuntar al script PHP que procesará el registro -->
             <form action="guardar_incidencia.php" method="POST">
-                
+
                 <!-- SELECT DINÁMICO (Aulas) -->
                 <div class="form-group">
                     <label for="id_aula" class="form-label">Aula Afectada</label>
                     <select name="id_aula" id="id_aula" class="form-control" required>
                         <option value="" disabled selected>-- Selecciona un Aula disponible --</option>
-                        
-                        <!-- NOTA: En la integración con PHP, aquí utilizarías un bucle para obtener las Aulas 
-                             desde la base de datos e inyectarlas aquí. Ejemplo:
-                             <option value="<?= $aula['id'] ?>"><?= $aula['nombre'] ?></option>
-                        -->
-                        
-                        <!-- Ejemplo visual estático -->
-                        <option value="1">Aula 101 (Teoría)</option>
-                        <option value="2">Aula 102 (Teoría)</option>
-                        <option value="3">Aula de Informática 1</option>
-                        <option value="4">Aula de Informática 2</option>
-                        <option value="5">Biblioteca</option>
+
+                        <?php foreach ($aulas as $aula): ?>
+                            <option value="<?= htmlspecialchars($aula['id']) ?>">
+                                <?= htmlspecialchars($aula['nombre']) ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <!-- DESCRIPCIÓN -->
                 <div class="form-group">
                     <label for="descripcion" class="form-label">Descripción del Problema</label>
-                    <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Explica detalladamente cuál es la avería, el equipo afectado o los síntomas..." required></textarea>
+                    <textarea name="descripcion" id="descripcion" class="form-control"
+                        placeholder="Explica detalladamente cuál es la avería, el equipo afectado o los síntomas..."
+                        required></textarea>
                 </div>
 
                 <!-- FECHA -->
@@ -100,4 +105,5 @@
     </div>
 
 </body>
+
 </html>
