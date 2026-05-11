@@ -1,3 +1,22 @@
+<?php
+require_once 'config.php';
+
+// Consulta: todas las incidencias con el nombre del aula (JOIN)
+$sql = "SELECT i.id, a.nombre AS aula, i.descripcion, i.fecha, i.estado
+        FROM incidencias i
+        INNER JOIN aulas a ON i.id_aula = a.id
+        ORDER BY i.fecha DESC";
+
+$stmt = $pdo->query($sql);
+$incidencias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Mapa de estado → clase CSS del badge
+$badgeClass = [
+    'Pendiente'  => 'badge-warning',
+    'En proceso' => 'badge-process',
+    'Resuelta'   => 'badge-success',
+];
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -51,41 +70,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- NOTA: Esto es código HTML estático para que veas el diseño.
-                         En PHP, este bloque <tr> se generará dentro de un bucle foreach/while iterando sobre los resultados MySQL -->
-                    
-                    <tr>
-                        <td><strong>#1</strong></td>
-                        <td>Aula 101</td>
-                        <td>El proyector no enciende, parpadea luz roja al intentarlo arrancar.</td>
-                        <td>20/03/2026</td>
-                        <td><span class="badge badge-warning">Pendiente</span></td>
-                    </tr>
-                    
-                    <tr>
-                        <td><strong>#2</strong></td>
-                        <td>Aula de Informática 1</td>
-                        <td>Falta el ratón en el equipo del profesor de la mesa central.</td>
-                        <td>21/03/2026</td>
-                        <td><span class="badge badge-process">En proceso</span></td>
-                    </tr>
-                    
-                    <tr>
-                        <td><strong>#3</strong></td>
-                        <td>Aula de Informática 2</td>
-                        <td>Pantalla azul (BSOD) al iniciar Windows en el alumno 5.</td>
-                        <td>22/03/2026</td>
-                        <td><span class="badge badge-warning">Pendiente</span></td>
-                    </tr>
-                    
-                    <tr>
-                        <td><strong>#4</strong></td>
-                        <td>Aula 102</td>
-                        <td>No hay conexión a internet en toda la fila de la derecha.</td>
-                        <td>22/03/2026</td>
-                        <td><span class="badge badge-success">Resuelta</span></td>
-                    </tr>
-                    
+                    <?php if (empty($incidencias)): ?>
+                        <tr>
+                            <td colspan="5" style="text-align:center; color: var(--text-muted);">
+                                No hay incidencias registradas.
+                            </td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($incidencias as $row): ?>
+                            <?php
+                                $estado = htmlspecialchars($row['estado']);
+                                $clase  = $badgeClass[$row['estado']] ?? 'badge-warning';
+                                $fecha  = date('d/m/Y', strtotime($row['fecha']));
+                            ?>
+                            <tr>
+                                <td><strong>#<?= htmlspecialchars($row['id']) ?></strong></td>
+                                <td><?= htmlspecialchars($row['aula']) ?></td>
+                                <td><?= htmlspecialchars($row['descripcion']) ?></td>
+                                <td><?= $fecha ?></td>
+                                <td><span class="badge <?= $clase ?>"><?= $estado ?></span></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
