@@ -1,9 +1,42 @@
-# Manual de Usuario: TaskBoard SMR
+# TaskBoard SMR
 
-## 1. Introducción
-¡Bienvenido a **TaskBoard SMR**! Esta es una aplicación web diseñada específicamente para facilitar la gestión de incidencias y averías de los equipos informáticos dentro de nuestro centro educativo. 
+**TaskBoard SMR** es una aplicación web diseñada para facilitar la gestión de incidencias y averías de los equipos informáticos dentro de un centro educativo. Permite a profesores y técnicos registrar, visualizar y hacer seguimiento del estado de las averías en distintas aulas, manteniendo un registro centralizado y organizado para optimizar el mantenimiento del centro.
 
-El objetivo principal de esta herramienta es mantener un registro organizado de qué equipos fallan, dónde se encuentran y cuál es el estado de la reparación. De este modo, los profesores y técnicos pueden coordinarse de forma eficiente, asegurando que ninguna avería pase desapercibida.
+Enlace de entrada al frontend de TaskBoard SMR: https://alumno6.dwes.site/
+
+## 🛠️ Tecnologías Utilizadas
+
+Este proyecto ha sido desarrollado utilizando las siguientes tecnologías:
+
+* **Frontend:** HTML5, CSS3 (estilos puros para diseño moderno y responsive) y Google Fonts (Inter).
+* **Backend:** PHP.
+* **Base de Datos:** MySQL / MariaDB (acceso mediante PDO y consultas preparadas para máxima seguridad).
+
+## 🚀 Instalación y Configuración
+
+Si deseas instalar y ejecutar este proyecto en tu propio entorno local (por ejemplo, usando XAMPP o un servidor web equivalente), sigue estos pasos:
+
+1. **Preparar los archivos:**
+   Descarga o clona los archivos del proyecto y colócalos en el directorio público de tu servidor local (como `htdocs` o `www`).
+
+2. **Configurar la Base de Datos:**
+   * Crea una nueva base de datos en tu servidor MySQL (por ejemplo, `taskboard_smr`).
+   * Crea las tablas necesarias (`aulas` e `incidencias`) e inserta algunos datos de ejemplo en la tabla `aulas`.
+
+3. **Configurar la conexión a la Base de Datos:**
+   * En la raíz del proyecto, haz una copia del archivo `config.example.php` y renómbralo a `config.php`.
+   * Abre `config.php` y ajusta las variables `$host`, `$dbname`, `$username` y `$password` para que coincidan con tus credenciales.
+
+4. **Ejecutar la aplicación:**
+   Abre tu navegador web y accede a `http://localhost/tu_carpeta_del_proyecto`.
+
+---
+
+# 📖 Manual de Usuario
+
+## 1. Introducción al uso
+
+¡Bienvenido! El objetivo principal de esta herramienta de cara al usuario final es mantener un registro organizado de qué equipos fallan, dónde se encuentran y cuál es el estado de la reparación. De este modo, los profesores y técnicos pueden coordinarse de forma eficiente, asegurando que ninguna avería pase desapercibida.
 
 ## 2. Pantalla Principal (Listado de Incidencias)
 Al entrar a la aplicación, la primera pantalla que verás es el **Listado de Incidencias**. Este panel es el corazón del sistema, ya que muestra, en una tabla muy visual, todas las averías registradas hasta la fecha.
